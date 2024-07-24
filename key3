@@ -1,5 +1,3 @@
-if getgenv().loaded then return end
-
 local discord = "https://discord.gg/CjDHnCp5Ss"
 local openkey = "JF8fvn3m_KEY_BeeSwarmHub"
 local premiumKey = "super_utka0015"
@@ -182,5 +180,3 @@ local function KDST_fake_script() -- Key.Dragging
     end)
 end
 coroutine.wrap(KDST_fake_script)()
-
-getgenv().loaded = true;
