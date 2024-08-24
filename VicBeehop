@@ -80,7 +80,9 @@ else
 end
 
 while true do
-    print("checking vicious bee live")
+    print("Checking for Vicious Bee live")
+    if not checkForViciousBee() then
+        hop()
+    end
     wait(5)
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/ago106/ScriptsRoblox/main/VicBeehop'))()
 end
