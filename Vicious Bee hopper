@@ -1,0 +1,92 @@
+task.wait() until game:IsLoaded()
+print("Loaded")
+
+local httpService = game:GetService("HttpService")
+
+local placeID = game.PlaceId
+local teleportService = game:GetService("TeleportService")
+local Found = false
+
+local function checkLevel(str)
+    print(str)
+    local level = tonumber(str:match("%d+"))
+    if level >= _G.Min and level <= _G.Max then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Level " .. level,
+            Text = "",
+            Duration = 30
+        })
+        return true
+    end
+end
+
+local function checkForViciousBee()
+    for _, child in ipairs(game:GetService("Workspace").Monsters:GetChildren()) do
+        if string.find(child.Name, "Vicious Bee") then
+            if checkLevel(child.Name) then
+                Found = true
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function sendNotif()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Vicious Bee Hopper",
+        Text = "Vicious Bee Has Been Found!",
+        Duration = 30
+    })
+end
+
+local function hop()
+    local success, site = pcall(function()
+        return httpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    end)
+    
+    if not success or not site or not site.data then
+        return
+    end
+    
+    for _, serverData in pairs(site.data) do
+        if serverData.maxPlayers > serverData.playing then
+            local serverID = tostring(serverData.id)
+            local hopSuccess, _ = pcall(function()
+                if Found then
+                    sendNotif()
+                    return true
+                end
+                queue_on_teleport("_G.Max=" .. _G.Max .. ";_G.Min=" .. _G.Min .. ";" .. game:HttpGet("https://e-z.tools/p/raw/qa6az4va4w"))
+                teleportService:TeleportToPlaceInstance(placeID, serverID, game.Players.LocalPlayer)
+            end)
+            if hopSuccess then
+                break
+            end
+        end
+    end
+end
+
+game:GetService("Workspace").Monsters.ChildAdded:Connect(function(child)
+    if string.find(child.Name, "Vicious Bee") then
+        if checkLevel(child.Name) then
+            Found = true
+        end
+    end
+end)
+
+if not checkForViciousBee() then
+    hop()
+else
+    sendNotif()
+end
+
+while true do
+    task.wait(30)  -- wait for 30 seconds
+    Found = false  -- reset Found to check again
+    if not checkForViciousBee() then
+        hop()  -- if Vicious Bee is not found, attempt to hop
+    else
+        sendNotif()  -- if found, send notification
+    end
+end
