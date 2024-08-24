@@ -1,0 +1,72 @@
+local request = request or http_request or httprequest or http
+local httpService = game:GetService("HttpService")
+
+local webhookSet = _G.Webhook ~= ""
+local placeID = game.PlaceId
+local teleportService = game:GetService("TeleportService")
+local foundNPC = false
+
+local function sendWebhookMessage(webhookURL, message)
+    message.content = "@everyone " .. message.content
+    
+    local response = request({
+        Url = webhookURL,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = httpService:JSONEncode(message)
+    })
+    return response
+end
+
+local function checkForWindyBee()
+    for _, child in ipairs(workspace.NPCBees:GetChildren()) do
+        if child.Name == "Windy" then
+            foundNPC = true
+            if webhookSet then
+                sendWebhookMessage(_G.Webhook, {content = "Windy Bee detected!"})
+            end
+            return true
+        end
+    end
+    return false
+end
+
+local function hop()
+    if webhookSet then
+        sendWebhookMessage(_G.Webhook, {content = "Server hopping for Windy Bee started."})
+    end
+
+    local success, site = pcall(function()
+        return httpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    end)
+    
+    if not success or not site or not site.data then
+        return
+    end
+    
+    for _, serverData in pairs(site.data) do
+        if serverData.maxPlayers > serverData.playing then
+            local serverID = tostring(serverData.id)
+            local hopSuccess, _ = pcall(function()
+                teleportService:TeleportToPlaceInstance(placeID, serverID, game.Players.LocalPlayer)
+            end)
+            if hopSuccess then
+                break
+            end
+        end
+    end
+end
+
+workspace.NPCBees.ChildAdded:Connect(function(child)
+    if child.Name == "Windy" then
+        if webhookSet then
+            sendWebhookMessage(_G.Webhook, {content = "Windy Bee detected!"})
+        end
+    end
+end)
+
+if not checkForWindyBee() then
+    hop()
+end
