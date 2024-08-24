@@ -7,7 +7,7 @@ local teleportService = game:GetService("TeleportService")
 local foundNPC = false
 
 local function sendWebhookMessage(webhookURL, message)
-    message.content = "@everyone " .. message.content
+    message.content = "Hopper LOG - " .. message.content
     
     local response = request({
         Url = webhookURL,
@@ -25,7 +25,7 @@ local function checkForWindyBee()
         if child.Name == "Windy" then
             foundNPC = true
             if webhookSet then
-                sendWebhookMessage(_G.Webhook, {content = "Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
             end
             return true
         end
