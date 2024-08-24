@@ -6,6 +6,7 @@ local httpService = game:GetService("HttpService")
 local placeID = game.PlaceId
 local teleportService = game:GetService("TeleportService")
 local Found = false
+local Hopper = false
 
 local function checkLevel(str)
     print(str)
@@ -24,6 +25,7 @@ local function checkForViciousBee()
         if string.find(child.Name, "Vicious Bee") then
             if checkLevel(child.Name) then
                 Found = true
+                Hopper = true
                 return true
             end
         end
