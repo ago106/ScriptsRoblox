@@ -78,3 +78,13 @@ if not checkForViciousBee() then
 else
     sendNotif()
 end
+
+while true do
+    task.wait(30)  -- wait for 30 seconds
+    Found = false  -- reset Found to check again
+    if not checkForViciousBee() then
+        hop()  -- if Vicious Bee is not found, attempt to hop
+    else
+        sendNotif()  -- if found, send notification
+    end
+end
