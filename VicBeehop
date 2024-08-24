@@ -79,5 +79,7 @@ else
     sendNotif()
 end
 
-
-
+while true do
+    wait(5)
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/ago106/ScriptsRoblox/main/VicBeehop'))()
+end
