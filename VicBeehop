@@ -1,4 +1,4 @@
-task.wait() until game:IsLoaded()
+repeat task.wait() until game:IsLoaded()
 print("Loaded")
 
 local httpService = game:GetService("HttpService")
@@ -19,7 +19,6 @@ local function checkLevel(str)
         return true
     end
 end
-
 local function checkForViciousBee()
     for _, child in ipairs(game:GetService("Workspace").Monsters:GetChildren()) do
         if string.find(child.Name, "Vicious Bee") then
@@ -31,7 +30,6 @@ local function checkForViciousBee()
     end
     return false
 end
-
 local function sendNotif()
     game.StarterGui:SetCore("SendNotification", {
         Title = "Vicious Bee Hopper",
