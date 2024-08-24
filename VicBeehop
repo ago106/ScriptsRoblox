@@ -78,11 +78,3 @@ if not checkForViciousBee() then
 else
     sendNotif()
 end
-
-while true do
-    print("Checking for Vicious Bee live")
-    if not checkForViciousBee() then
-        hop()
-    end
-    wait(5)
-end
