@@ -23,21 +23,11 @@ local function sendWebhookMessage(webhookURL, message)
     return response
 end
 
-local function teleportToWindyBee(windyBee)
-    local character = game.Players.LocalPlayer.Character
-    if character and windyBee then
-        character:MoveTo(windyBee.Position)
-        if webhookSet then
-            sendWebhookMessage(_G.Webhook, {content = "Teleported to Windy Bee!"})
-        end
-    end
-end
 
 local function checkForWindyBee()
     for _, child in ipairs(workspace.NPCBees:GetChildren()) do
         if child.Name == "Windy" then
             foundNPC = true
-            teleportToWindyBee(child)  -- Teleport to Windy Bee
             if webhookSet then
                 sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
             end
@@ -75,7 +65,6 @@ end
 
 workspace.NPCBees.ChildAdded:Connect(function(child)
     if child.Name == "Windy" then
-        teleportToWindyBee(child)  -- Teleporting directly when the Windy Bee is added
         if webhookSet then
             sendWebhookMessage(_G.Webhook, {content = "Windy Bee detected! Teleported immediately."})
         end
