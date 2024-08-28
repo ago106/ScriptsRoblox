@@ -10,7 +10,7 @@ local teleportService = game:GetService("TeleportService")
 local foundNPC = false
 
 local function sendWebhookMessage(webhookURL, message)
-    message.content = "Hopper LOG - " .. message.content
+    message.content = "Hopper Log " .. message.content
     
     local response = request({
         Url = webhookURL,
@@ -23,13 +23,12 @@ local function sendWebhookMessage(webhookURL, message)
     return response
 end
 
-
 local function checkForWindyBee()
     for _, child in ipairs(workspace.NPCBees:GetChildren()) do
         if child.Name == "Windy" then
             foundNPC = true
             if webhookSet then
-                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "Windy Bee detected!"})
             end
             return true
         end
@@ -45,11 +44,11 @@ local function hop()
     local success, site = pcall(function()
         return httpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeID .. '/servers/Public?sortOrder=Asc&limit=100'))
     end)
-
+    
     if not success or not site or not site.data then
         return
     end
-
+    
     for _, serverData in pairs(site.data) do
         if serverData.maxPlayers > serverData.playing then
             local serverID = tostring(serverData.id)
