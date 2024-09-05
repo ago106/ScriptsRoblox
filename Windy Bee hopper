@@ -1,3 +1,94 @@
---Hi skeeder
+repeat task.wait() until game:IsLoaded()
+print("Loaded")
 
-repeat task.wait()until game:IsLoaded()print("Loaded")local a=request or http_request or httprequest or http;local b=game:GetService("HttpService")local c=game:GetService("TweenService")local c=game:GetService("Players")local c=c.LocalPlayer;local c=_G.Webhook~=""local d=game.PlaceId;local e=game:GetService("TeleportService")local f=false;local function g(c,d)d.content="### 🌪Bee Logger☁ --"..d.content;local a=a({Url=c,Method="POST",Headers={["Content-Type"]="application/json"},Body=b:JSONEncode(d)})return a end;local function a()for a,a in ipairs(workspace.NPCBees:GetChildren())do if a.Name=="Windy"then f=true;if c then g(_G.Webhook,{content="@everyone Windy Bee detected!"})g(_G.Webhook,{content="@everyone Windy Bee detected!"})g(_G.Webhook,{content="@everyone Windy Bee detected!"})g(_G.Webhook,{content="@everyone Windy Bee detected!"})g(_G.Webhook,{content="@everyone Windy Bee detected!"})end;return true end end;return false end;local function a()if c then g(_G.Webhook,{content="Server hopping for Windy Bee started."})end;local a,b=pcall(function()return b:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/'..d..'/servers/Public?sortOrder=Asc&limit=100'))end)if not a or not b or not b.data then return end;for a,a in pairs(b.data)do if a.maxPlayers>a.playing then local a=tostring(a.id)local a,b=pcall(function()e:TeleportToPlaceInstance(d,a,game.Players.LocalPlayer)end)if a then break end end end end;workspace.NPCBees.ChildAdded:Connect(function(a)if a.Name=="Windy"then if c then g(_G.Webhook,{content="@everyone Windy Bee detected!"})end end end)local function b()return workspace.Monsters:FindFirstChild("Windy")~=nil end;while true do if not b()then a()else loadstring(game:HttpGet("https://gist.githubusercontent.com/ago106/eb702222748f806212d22896b227f339/raw/",true))()wait(2)end;task.wait(30)end
+local request = request or http_request or httprequest or http
+local httpService = game:GetService("HttpService")
+
+local TweenService = game:GetService("TweenService")
+local players = game:GetService("Players")
+local localPlayer = players.LocalPlayer
+
+local webhookSet = _G.Webhook ~= ""
+local placeID = game.PlaceId
+local teleportService = game:GetService("TeleportService")
+local foundNPC = false
+
+local function sendWebhookMessage(webhookURL, message)
+    message.content = "### 🌪Bee Logger☁ --" .. message.content
+    
+    local response = request({
+        Url = webhookURL,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = httpService:JSONEncode(message)
+    })
+    return response
+end
+
+
+local function checkForWindyBee()
+    for _, child in ipairs(workspace.NPCBees:GetChildren()) do
+        if child.Name == "Windy" then
+            foundNPC = true
+            if webhookSet then
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+                sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+            end
+            return true
+        end
+    end
+    return false
+end
+
+local function hop()
+    if webhookSet then
+        sendWebhookMessage(_G.Webhook, {content = "Server hopping for Windy Bee started."})
+    end
+
+    local success, site = pcall(function()
+        return httpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    end)
+    
+    if not success or not site or not site.data then
+        return
+    end
+    
+    for _, serverData in pairs(site.data) do
+        if serverData.maxPlayers > serverData.playing then
+            local serverID = tostring(serverData.id)
+            local hopSuccess, _ = pcall(function()
+                teleportService:TeleportToPlaceInstance(placeID, serverID, game.Players.LocalPlayer)
+            end)
+            if hopSuccess then
+                break
+            end
+        end
+    end
+end
+
+workspace.NPCBees.ChildAdded:Connect(function(child)
+    if child.Name == "Windy" then
+        if webhookSet then
+            sendWebhookMessage(_G.Webhook, {content = "@everyone Windy Bee detected!"})
+        end
+    end
+end)
+
+local function checkForWindyBee()
+    return workspace.Monsters:FindFirstChild("Windy") ~= nil
+end
+
+while true do
+    if not checkForWindyBee() then
+        hop()
+    else
+        loadstring(game:HttpGet("https://gist.githubusercontent.com/ago106/eb702222748f806212d22896b227f339/raw/", true))()
+        wait(2)
+    end
+    task.wait(30)
+end
