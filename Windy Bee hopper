@@ -90,5 +90,5 @@ while true do
         loadstring(game:HttpGet("https://gist.githubusercontent.com/ago106/eb702222748f806212d22896b227f339/raw/", true))()
         wait(2)
     end
-    task.wait(30)
+    task.wait(180)
 end
