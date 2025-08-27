@@ -41,11 +41,4 @@ function NickHider()
     end
 end
 
-for _, v in pairs(Workspace.Honeycombs:GetChildren()) do
-    if v:FindFirstChild("Owner") and v.Owner.Value == nil and v:FindFirstChild("HiveID") then
-        local args = {v.HiveID.Value}
-        ReplicatedStorage.Events.ClaimHive:FireServer(unpack(args))
-    end
-end
-
 NickHider()
