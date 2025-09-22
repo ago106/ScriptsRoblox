@@ -29,7 +29,7 @@ local Mobile = not RunService:IsStudio() and table.find({Enum.Platform.IOS, Enum
 
 local fischbypass
 
-if game.GameId == 5750914919 then
+if game.GameId == 16732694052 then
 	fischbypass = true
 end
 
