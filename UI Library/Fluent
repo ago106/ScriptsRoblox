@@ -4557,6 +4557,15 @@ ElementsTable.Paragraph = (function()
 		Paragraph.Visible = Paragraph.Visible
 		Paragraph.Elements = Paragraph
 
+		function Paragraph:SetText(NewTitle, NewContent)
+			if NewTitle then
+				Paragraph.SetTitle(self, NewTitle)
+			end
+			if NewContent then
+				Paragraph.SetDesc(self, NewContent)
+			end
+		end
+
 		return Paragraph
 	end
 
