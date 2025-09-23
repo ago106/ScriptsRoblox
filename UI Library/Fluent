@@ -1,9 +1,6 @@
 --[[
-
 dsc.gg/ktC6dNVxDC
 ]]
-
--- removed settings :)
 
 local Lighting = game:GetService("Lighting")
 local RunService = game:GetService("RunService")
@@ -127,9 +124,18 @@ local Themes = {
 		ElementBorder = Color3.fromRGB(23, 23, 23),
 		InElementBorder = Color3.fromRGB(52, 52, 52),
 		ElementTransparency = 0.82,
+		ToggleSlider = Color3.fromRGB(52, 52, 52),
+		ToggleToggled = Color3.fromRGB(173, 224, 43),
+		SliderRail = Color3.fromRGB(12, 12, 12),
 		DropdownFrame = Color3.fromRGB(28, 29, 28),
 		DropdownHolder = Color3.fromRGB(34, 34, 34),
 		DropdownBorder = Color3.fromRGB(23, 23, 23),
+		DropdownOption = Color3.fromRGB(28, 29, 28),
+		Keybind = Color3.fromRGB(36, 36, 36),
+		Input = Color3.fromRGB(18, 18, 18),
+		InputFocused = Color3.fromRGB(173, 224, 43),
+		InputIndicator = Color3.fromRGB(130, 130, 130),
+		InputIndicatorFocus = Color3.fromRGB(173, 224, 43),
 		Dialog = Color3.fromRGB(23, 23, 23),
 		DialogHolder = Color3.fromRGB(18, 18, 18),
 		DialogHolderLine = Color3.fromRGB(12, 12, 12),
@@ -138,6 +144,10 @@ local Themes = {
 		DialogBorder = Color3.fromRGB(50, 50, 50),
 		DialogInput = Color3.fromRGB(37, 37, 37),
 		DialogInputLine = Color3.fromRGB(130, 130, 130),
+		Text = Color3.fromRGB(255, 255, 255),
+		SubText = Color3.fromRGB(255, 255, 255),
+		Hover = Color3.fromRGB(40, 40, 42),
+		HoverChange = 0.04
 	},
 	AMOLED = {
 		Name = "AMOLED",
