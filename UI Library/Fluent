@@ -1,4 +1,5 @@
 --[[
+
 dsc.gg/ktC6dNVxDC
 ]]
 
@@ -2420,6 +2421,9 @@ Components.Dialog = (function()
 	local Instant = Flipper.Instant.new
 	local New = Creator.New
 
+	local Workspace = game:GetService("Workspace")
+	local Camera = Workspace.CurrentCamera
+
 	local Dialog = {
 		Window = nil,
 	}
@@ -2577,6 +2581,65 @@ Components.Dialog = (function()
 
 	return Dialog
 end)()
+
+local function CreateDialog(Config)
+	local Dialog = Dialog:Create()
+	Dialog.Title.Text = Config.Title
+
+	local ContentHolder = New("ScrollingFrame", {
+		BackgroundTransparency = 1,
+		ScrollBarImageTransparency = 0.7,
+		ScrollBarThickness = 4,
+		BottomImage = "rbxassetid://6889812791",
+		MidImage = "rbxassetid://6889812721",
+		TopImage = "rbxassetid://6276641225",
+		Position = UDim2.fromOffset(20, 60),
+		Size = UDim2.new(1, -40, 1, -130),
+		CanvasSize = UDim2.fromOffset(0, 0),
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+		Parent = Dialog.Root,
+	})
+
+	local Content = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		Text = Config.Content,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		TextYAlignment = Enum.TextYAlignment.Top,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		TextWrapped = true,
+		Size = UDim2.new(1, -8, 0, 0),
+		BackgroundTransparency = 1,
+		Parent = ContentHolder,
+		ThemeTag = { TextColor3 = "Text" },
+	})
+
+	New("UISizeConstraint", {
+		MinSize = Vector2.new(300, 165),
+		MaxSize = Vector2.new(620, math.huge),
+		Parent = Dialog.Root,
+	})
+
+	local maxWidth = math.min(620, Dialog.Window.Size.X.Offset - 120)
+	local baseWidth = math.max(300, math.min(maxWidth, Content.TextBounds.X + 40))
+	Dialog.Root.Size = UDim2.fromOffset(baseWidth, 165)
+	ContentHolder.Size = UDim2.new(1, -40, 1, -130)
+	task.defer(function()
+		local contentHeight = Content.TextBounds.Y
+		local screenHeight = Camera.ViewportSize.Y
+		local maxDialogHeight = math.floor(screenHeight * 0.5)
+		local desired = math.clamp(contentHeight + 130, 165, maxDialogHeight)
+		Dialog.Root.Size = UDim2.fromOffset(baseWidth, desired)
+	end)
+
+	for _, Button in next, Config.Buttons do
+		Dialog:Button(Button.Title, Button.Callback)
+	end
+
+	Dialog:Open()
+end
 Components.Notification = (function()
 	local Spring = Flipper.Spring.new
 	local Instant = Flipper.Instant.new
