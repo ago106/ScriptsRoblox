@@ -1,12 +1,4 @@
 --[[
-███████╗██╗░░░░░██╗░░░██╗███████╗███╗░░██╗████████╗  ██████╗░██╗░░░░░██╗░░░██╗░██████╗
-██╔════╝██║░░░░░██║░░░██║██╔════╝████╗░██║╚══██╔══╝  ██╔══██╗██║░░░░░██║░░░██║██╔════╝
-█████╗░░██║░░░░░██║░░░██║█████╗░░██╔██╗██║░░░██║░░░  ██████╔╝██║░░░░░██║░░░██║╚█████╗░
-██╔══╝░░██║░░░░░██║░░░██║██╔══╝░░██║╚████║░░░██║░░░  ██╔═══╝░██║░░░░░██║░░░██║░╚═══██╗
-██║░░░░░███████╗╚██████╔╝███████╗██║░╚███║░░░██║░░░  ██║░░░░░███████╗╚██████╔╝██████╔╝
-╚═╝░░░░░╚══════╝░╚═════╝░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░  ╚═╝░░░░░╚══════╝░╚═════╝░╚═════╝░
-
-A modified version of Fluent
 dsc.gg/ktC6dNVxDC
 ]]
 
@@ -4115,7 +4107,7 @@ ElementsTable.Dropdown = (function()
 		end
 
 		local DropdownHolderFrame = New("Frame", {
-			Size = UDim2.fromScale(1, 0.6),
+			Size = UDim2.fromScale(1, 0),
 			ThemeTag = {
 				BackgroundColor3 = "DropdownHolder",
 			},
@@ -4172,7 +4164,12 @@ ElementsTable.Dropdown = (function()
 		local function RecalculateListSize()
 			local listHeight = DropdownListLayout.AbsoluteContentSize.Y
 			local extra = Dropdown.Search and 43 or 10
-			local maxHeight = 392
+			local itemHeight = 32
+			local padding = 3
+			local fullItems = 4
+			local partialFraction = 0.5
+			local maxScrollHeight = fullItems * itemHeight + fullItems * padding + partialFraction * itemHeight
+			local maxHeight = maxScrollHeight + extra
 			local targetHeight = math.min(listHeight + extra, maxHeight)
 			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, targetHeight)
 		end
@@ -4262,7 +4259,7 @@ ElementsTable.Dropdown = (function()
 
 		function Dropdown:Close()
 			Dropdown.Opened = false
-			DropdownHolderFrame.Size = UDim2.fromScale(1, 0.6)
+			DropdownHolderFrame.Size = UDim2.fromScale(1, 0)
 			DropdownHolderCanvas.Visible = false
 			TweenService:Create(
 				DropdownIco,
