@@ -6973,7 +6973,6 @@ local SaveManager = {} do
 	SaveManager:BuildFolderTree()
 end
 
-return SaveManager
 --[[local SaveManager = {} do
 	SaveManager.Folder = "FluentSettings"
 	SaveManager.Ignore = {}
