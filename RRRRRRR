@@ -1,0 +1,35 @@
+_G.AutoPickups = true
+_G.AutoSkip = true
+_G.AutoChain = false
+_G.AutoDJ = false
+_G.AutoNecro = false
+_G.AutoMercenary = false
+_G.AutoMilitary = false
+_G.AntiLag = true
+_G.AutoRejoin = false -- Auto Farm
+
+_G.SendWebhook = true -- Set to true to enable notifications
+_G.Webhook = "https://discord.com/api/webhooks/1471826442881859594/kMO4aXuxt1JS9RU027ci2elH_H-xFa609MAj1aDbwchF729Vz7ZVZKj1p3a--ZD95iPn"
+
+local TDS = loadstring(game:HttpGet("https://raw.githubusercontent.com/Space-RB/Premium/refs/heads/main/Scripts/TDS/Recorder/Library.lua"))()
+
+TDS:Place("Pyromancer", 12.47, 1.00, -17.91) -- 1
+TDS:Place("Trapper", 3.52, 1.00, -8.11) -- 2
+TDS:Upgrade(2)
+TDS:Place("Trapper", 3.85, 1.00, 4.93) -- 3
+TDS:Upgrade(3)
+TDS:Place("Trapper", -7.91, 1.00, 11.87) -- 4
+TDS:Upgrade(4)
+TDS:Place("Trapper", 3.61, 1.00, 18.00) -- 5
+TDS:Upgrade(5)
+TDS:Upgrade(2)
+TDS:Upgrade(1)
+TDS:Upgrade(1)
+TDS:Upgrade(1)
+TDS:Place("Trapper", -8.37, 1.00, -1.59) -- 6
+TDS:Upgrade(6)
+TDS:Place("Trapper", -20.40, 1.05, -8.81) -- 7
+TDS:Upgrade(7)
+
+-- [[ END OF STRATEGY ]]
+TDS:RestartScript("")
