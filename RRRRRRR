@@ -31,5 +31,4 @@ TDS:Upgrade(6)
 TDS:Place("Trapper", -20.40, 1.05, -8.81) -- 7
 TDS:Upgrade(7)
 
--- [[ END OF STRATEGY ]]
-TDS:RestartScript("")
+TDS:RestartScript("https://raw.githubusercontent.com/ago106/ScriptsRoblox/refs/heads/main/RRRRRRR")
