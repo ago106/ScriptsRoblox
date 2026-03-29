@@ -1,0 +1,53 @@
+local original
+original = hookfunction(request, function(req)
+    if type(req) ~= "table" then
+        return original(req)
+    end
+
+    local url = tostring(req.Url or req.url or ""):lower()
+
+    local blocked = {
+        "discord.com/api/webhooks",
+        "discordapp.com/api/webhooks",
+        "webhook",
+        "whook",
+        "hook",
+    }
+
+    for _, v in ipairs(blocked) do
+        if url:find(v, 1, true) then
+            warn("Blocked webhook:", url)
+            return {
+                Success = false,
+                StatusCode = 403,
+                Body = "",
+            }
+        end
+    end
+
+    if req.Method and req.Method:upper() == "POST" then
+        local body = tostring(req.Body or "")
+        if body:match("^[0-9A-Fa-f]+$") and #body > 100 then
+            warn("Blocked Post Body")
+            return {
+                Success = false,
+                StatusCode = 403,
+                Body = "",
+            }
+        end
+    end
+
+    return original(req)
+end)
+
+
+local old_gethwid = gethwid
+hookfunction(gethwid, function()
+    return "E5E6E40A-9C97-4B78-B323-3A888E2A4E8E"
+end)
+
+
+local old_print = print
+hookfunction(print, function()
+    
+end)
